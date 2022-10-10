@@ -6,16 +6,18 @@
 #include <iostream>
 using namespace std;
 
+
 struct flower{
     char color;
-    string name;
+    int height;
 };
 
 /***creating a dynamically allocated 2d array***/
 flower** create_garden_box(int rows, int cols){
-    //create the dynamically allocated array
+    //create the dynamically allocated array of type flower*
     flower** garden = new flower*[rows];
 
+    //allocating another array of size cols of type flower
     for(int i = 0; i < rows; i++){
         garden[i] = new flower[cols];
     }
@@ -25,14 +27,15 @@ flower** create_garden_box(int rows, int cols){
         for(int j = 0; j < cols; j++){
             cout << endl << "What color is the flower in this box(r-red, b-blue, y-yellow): ";
             cin >> garden[i][j].color;
-            cout << "What's it's name: ";
-            cin >> garden[i][j].name;
+            cout << "What's it's height?: ";
+            cin >> garden[i][j].height;
         }
     }
 
     return garden;
 }
 
+/*Printing out the garden*/
 void view_garden(flower** garden, int rows, int cols){
     cout << endl << "Here is your garden:" << endl;
     for(int i = 0; i < rows; i++){
@@ -41,6 +44,15 @@ void view_garden(flower** garden, int rows, int cols){
         }
         cout << endl;
     }
+}
+
+/*deleting the allocated memory in heap*/
+void free_garden(flower ** garden, int rows, int cols){
+    for(int i = 0; i < rows; i++){
+        delete [] garden[i];
+    }
+    
+    delete [] garden;
 }
 
 int main(){
@@ -62,4 +74,5 @@ int main(){
     view_garden(garden, rows, cols);
 
     //free the garden mem
+    free_garden(garden, rows, cols);
 }
